@@ -1,0 +1,33 @@
+.popup {
+  position: absolute;
+  background-color: #1b1b1d;
+  color: white;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transform: translate(-50%, 0);
+  white-space: nowrap;
+}
+
+.askButton {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 3px;
+  transition: background-color 0.2s;
+}
+
+.askButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.askButton:focus {
+  outline: 2px solid #007aff;
+  outline-offset: 1px;
+}

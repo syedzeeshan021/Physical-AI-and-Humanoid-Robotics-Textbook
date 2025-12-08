@@ -1,0 +1,21 @@
+# Railway deployment configuration
+
+[build]
+builder = "nixpacks"
+
+[build.nixpacks]
+phases.setup.nixPkgs = ["python311", "gcc", "g++", "cmake"]
+
+[build.nixpacks.variables]
+PYTHONPATH = "/app"
+PORT = "8000"
+
+[start]
+cmd = "gunicorn -c gunicorn.conf.py src.main:app"
+
+[deploy]
+numReplicas = 1
+sleepApplication = false
+startDelay = 0
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
