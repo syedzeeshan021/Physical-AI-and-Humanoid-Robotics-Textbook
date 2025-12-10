@@ -1,6 +1,7 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import {DefinePlugin} from 'webpack';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -76,9 +77,9 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'My Site',
+      title: 'Physical AI & Humanoid Robotics',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Physical AI & Humanoid Robotics Textbook',
         src: 'img/logo.svg',
       },
       items: [
@@ -87,6 +88,16 @@ const config: Config = {
           sidebarId: 'textbookSidebar',
           position: 'left',
           label: 'Textbook',
+        },
+        {
+          to: '/login',
+          label: 'Sign In',
+          position: 'right',
+        },
+        {
+          to: '/signup',
+          label: 'Sign Up',
+          position: 'right',
         },
         {
           href: 'https://github.com/facebook/docusaurus',
@@ -141,6 +152,23 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
     },
   } satisfies Preset.ThemeConfig,
+
+  plugins: [
+    () => ({
+      name: 'webpack-config-plugin',
+      configureWebpack: () => {
+        return {
+          plugins: [
+            new DefinePlugin({
+              'process.env.REACT_APP_BACKEND_API_URL': JSON.stringify(
+                process.env.REACT_APP_BACKEND_API_URL || 'http://localhost:8000/api/v1'
+              ),
+            }),
+          ],
+        };
+      },
+    }),
+  ],
 };
 
 export default config;

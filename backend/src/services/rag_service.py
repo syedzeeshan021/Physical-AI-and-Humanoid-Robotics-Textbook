@@ -5,7 +5,7 @@ import logging
 from src.core.vector_store import vector_store
 from src.services.chapter_service import ChapterService
 from src.core.config import settings
-import openai
+from openai import OpenAI
 import asyncio
 
 # Set up logging
@@ -19,7 +19,7 @@ class RAGService:
         self.encoder = SentenceTransformer('all-MiniLM-L6-v2')
 
         # Initialize OpenAI client
-        openai.api_key = settings.OPENAI_API_KEY
+        self.openai_client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
     async def process_query(self, query: str, session_id: str = None) -> Dict[str, Any]:
         """
@@ -71,7 +71,7 @@ class RAGService:
 
             try:
                 # Generate response using OpenAI API
-                response = openai.ChatCompletion.create(
+                response = self.openai_client.chat.completions.create(
                     model="gpt-3.5-turbo",
                     messages=[{"role": "user", "content": prompt}],
                     max_tokens=500,
@@ -125,7 +125,7 @@ class RAGService:
                 )
                 results.append(point_id)
 
-            return results
+        return results
 
 
 # Global instance

@@ -12,11 +12,23 @@ logger = logging.getLogger(__name__)
 class VectorStore:
     def __init__(self):
         # Initialize Qdrant client
-        self.client = QdrantClient(
-            url=settings.QDRANT_URL,
-            api_key=settings.QDRANT_API_KEY,
-            prefer_grpc=False  # Use HTTP instead of gRPC for better compatibility
-        )
+        # Handle both cloud and local Qdrant instances
+        if settings.QDRANT_URL and "gcp.cloud.qdrant.io" in settings.QDRANT_URL:
+            # Cloud instance - construct URL properly for Qdrant client
+            # Qdrant client expects URL without protocol prefix when using https=True
+            clean_url = settings.QDRANT_URL.replace("https://", "")
+            self.client = QdrantClient(
+                host=clean_url,
+                api_key=settings.QDRANT_API_KEY,
+                https=True  # Explicitly enable HTTPS for cloud instances
+            )
+        else:
+            # Local instance
+            self.client = QdrantClient(
+                url=settings.QDRANT_URL or "http://localhost:6333",
+                api_key=settings.QDRANT_API_KEY,
+                prefer_grpc=False
+            )
 
         # Initialize sentence transformer for embeddings
         self.encoder = SentenceTransformer('all-MiniLM-L6-v2')
@@ -67,9 +79,9 @@ class VectorStore:
 
     async def search_similar(self, query_embedding: List[float], limit: int = 5) -> List[Dict[str, Any]]:
         """Search for similar embeddings"""
-        results = self.client.search(
+        results = self.client.query_points(
             collection_name=self.collection_name,
-            query_vector=query_embedding,
+            query=query_embedding,
             limit=limit
         )
 
@@ -81,7 +93,7 @@ class VectorStore:
                 "metadata": result.payload.get("metadata", {}),
                 "score": result.score
             }
-            for result in results
+            for result in results.points
         ]
 
     async def delete_by_chapter_id(self, chapter_id: str):

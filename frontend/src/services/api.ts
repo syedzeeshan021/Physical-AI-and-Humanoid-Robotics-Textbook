@@ -1,4 +1,11 @@
 // API service to connect frontend to backend
+// The environment variable is replaced by webpack DefinePlugin during build
+declare const process: {
+  env: {
+    REACT_APP_BACKEND_API_URL: string;
+  };
+};
+
 const BACKEND_API_URL = process.env.REACT_APP_BACKEND_API_URL || 'http://localhost:8000/api/v1';
 
 class ApiService {

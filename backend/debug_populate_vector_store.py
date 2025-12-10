@@ -1,5 +1,5 @@
 """
-Script to populate Qdrant vector store with textbook embeddings
+Script to populate Qdrant vector store with textbook embeddings - DEBUG VERSION
 """
 import asyncio
 import sys
@@ -94,6 +94,7 @@ async def populate_vector_store():
             logger.info(f"  ✓ Chapter {i} complete\n")
 
         from src.core.config import settings
+        qdrant_url = settings.QDRANT_URL or "http://localhost:6333"
         logger.info("=" * 60)
         logger.info(f"✓ Vector Store Population Complete!")
         logger.info(f"  - Total chunks indexed: {total_chunks}")
@@ -102,13 +103,14 @@ async def populate_vector_store():
         logger.info("\nYou can now:")
         logger.info("1. Start the backend: python -m uvicorn src.main:app --reload")
         logger.info("2. Test the RAG chatbot by asking questions")
-        qdrant_url = settings.QDRANT_URL or "http://localhost:6333"
         logger.info(f"\nQdrant Dashboard: {qdrant_url}/dashboard")
 
     except Exception as e:
         from src.core.config import settings
         qdrant_url = settings.QDRANT_URL or "http://localhost:6333"
         logger.error(f"✗ Error populating vector store: {str(e)}")
+        import traceback
+        traceback.print_exc()  # Print full traceback
         logger.error("Make sure:")
         logger.error(f"  1. Qdrant is running and accessible at: {qdrant_url}")
         logger.error("  2. PostgreSQL/Neon database is accessible")
@@ -123,4 +125,6 @@ if __name__ == "__main__":
         logger.info("\n\nOperation cancelled by user")
     except Exception as e:
         logger.error(f"\n\nFailed to populate vector store: {str(e)}")
+        import traceback
+        traceback.print_exc()  # Print full traceback
         sys.exit(1)

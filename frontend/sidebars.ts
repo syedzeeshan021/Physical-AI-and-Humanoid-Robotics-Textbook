@@ -48,7 +48,12 @@ const sidebars: SidebarsConfig = {
         {
           type: 'doc',
           id: 'chapters/capstone-ai-robot-pipeline',
-          label: 'Capstone: Simple AI-Robot Pipeline',
+          label: 'Capstone: Autonomous Humanoid Implementation',
+        },
+        {
+          type: 'doc',
+          id: 'chapters/hardware-requirements-setup',
+          label: 'Hardware Requirements and Setup',
         },
       ],
     },

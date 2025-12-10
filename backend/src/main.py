@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from src.api import router
+from src.auth.routes import router as auth_router
 from src.core.config import settings
 from src.core.error_handlers import setup_error_handlers
 from src.middleware.rate_limit import RateLimitMiddleware
@@ -34,6 +35,7 @@ app.add_middleware(
 
 # Include API routes
 app.include_router(router, prefix="/api/v1")
+app.include_router(auth_router)
 
 @app.get("/")
 def read_root():
