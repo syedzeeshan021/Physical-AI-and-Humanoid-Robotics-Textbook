@@ -1,10 +1,10 @@
 {
   "builds": [
     {
-      "src": "frontend/package.json",
+      "src": "build.sh",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "build"
+        "distDir": "frontend/build"
       }
     }
   ],
@@ -13,5 +13,9 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ]
+  ],
+  "github": {
+    "enabled": true,
+    "autoJobCancelation": true
+  }
 }
