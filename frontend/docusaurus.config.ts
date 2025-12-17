@@ -16,15 +16,15 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://your-github-username.github.io',
+  url: 'https://physical-ai-and-humanoid-robotics-textbook-gduzorn90.vercel.app',
   // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/textbook-site/',
+  // For Vercel deployment, use root path
+  baseUrl: '/',
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'your-github-username', // Usually your GitHub org/user name.
-  projectName: 'textbook-site', // Usually your repo name.
+  // Deployment config for Vercel
+  // These values can be kept for reference but are not used for Vercel deployment
+  organizationName: 'syedzeeshan021', // Your GitHub org/user name.
+  projectName: 'Physical-AI-and-Humanoid-Robotics-Textbook', // Your repo name.
 
   onBrokenLinks: 'throw',
 
