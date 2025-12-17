@@ -19,7 +19,7 @@ Create a short, clean, professional AI-Native textbook based on the Physical AI 
 - Lightweight embeddings
 - Integrated RAG chatbot
 - Select-text → Ask AI functionality
-- Optional Urdu translation feature
+- Urdu translation feature: logged users can translate content to Urdu by pressing a button at the start of each chapter (enabling 50 extra bonus points)
 - Personalization features
 
 ### 2.2 Out of Scope
@@ -99,6 +99,7 @@ Create a short, clean, professional AI-Native textbook based on the Physical AI 
 - Modular, reusable components
 - Static site generation for fast loading
 - Progressive enhancement approach
+- Urdu translation button component at chapter start for authenticated users
 
 ### 5.2 Backend Architecture
 - RESTful API design
@@ -125,6 +126,7 @@ Create a short, clean, professional AI-Native textbook based on the Physical AI 
 - Consistent formatting with ESLint/Prettier
 - Comprehensive unit tests (80%+ coverage)
 - Documentation for all public APIs
+- Proper authentication checks for translation features
 
 ### 6.2 Performance
 - Page load times under 3 seconds
@@ -160,9 +162,10 @@ Create a short, clean, professional AI-Native textbook based on the Physical AI 
 
 ### 7.3 Localization
 - English as primary language
-- Urdu translation support (optional)
+- Urdu translation support: logged users can translate content by pressing a button at the start of each chapter (enabling 50 extra bonus points)
 - Right-to-left layout support where needed
 - Cultural sensitivity in examples
+- Translation functionality accessible to authenticated users only
 
 ## 8. Deployment & Operations
 
@@ -247,4 +250,4 @@ Create a short, clean, professional AI-Native textbook based on the Physical AI 
 
 *This constitution serves as the foundational document for the Physical AI & Humanoid Robotics textbook project. All future decisions should align with these principles and guidelines.*
 
-**Version**: 1.0.0 | **Ratified**: 2025-12-07 | **Last Amended**: 2025-12-07
+**Version**: 1.0.1 | **Ratified**: 2025-12-07 | **Last Amended**: 2025-12-15

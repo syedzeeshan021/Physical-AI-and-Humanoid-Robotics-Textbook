@@ -4,6 +4,9 @@
  * work well for content-centric websites.
  */
 
+/* Import Urdu fonts */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap');
+
 /* You can override the default Infima variables here. */
 :root {
   --ifm-color-primary: #2e8555;
@@ -27,4 +30,34 @@
   --ifm-color-primary-lighter: #32d8b4;
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* Right-to-left text support for Urdu content */
+.translation-content-urdu {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Noto Nastaliq Urdu', 'Urdu Typesetting', 'Jameel Noori Nastaleeq', 'Urdu Naskh Asiatype', serif;
+  line-height: 1.8;
+  font-size: 1.1em;
+}
+
+/* Ensure proper RTL layout for content elements */
+.translation-content-urdu p,
+.translation-content-urdu div,
+.translation-content-urdu span {
+  text-align: right;
+  direction: rtl;
+}
+
+/* Adjust code blocks for RTL content */
+.translation-content-urdu code {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: embed;
+}
+
+.translation-content-urdu pre {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: embed;
 }

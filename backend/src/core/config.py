@@ -20,6 +20,13 @@ class Settings(BaseSettings):
     # OpenAI settings
     OPENAI_API_KEY: Optional[str] = None
 
+    # Google Gemini settings
+    GEMINI_API_KEY: Optional[str] = None
+    GEMINI_MODEL: str = "gemini-1.5-flash"  # Default to gemini-1.5-flash
+
+    # AI Provider configuration (openai or gemini)
+    AI_PROVIDER: str = "openai"  # Default to openai, can be "gemini"
+
     # JWT settings
     SECRET_KEY: str = "your-secret-key-here"
     ALGORITHM: str = "HS256"
@@ -31,6 +38,10 @@ class Settings(BaseSettings):
     # Rate limiting
     RATE_LIMIT_REQUESTS: int = 100
     RATE_LIMIT_WINDOW: int = 3600  # 1 hour in seconds
+
+    # Google Cloud Translation settings
+    GOOGLE_CLOUD_PROJECT_ID: Optional[str] = None
+    GOOGLE_CLOUD_TRANSLATE_API_KEY: Optional[str] = None
 
     class Config:
         env_file = ".env"

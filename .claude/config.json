@@ -1,0 +1,11 @@
+{
+  "commands": {
+    "directory": ".claude/commands",
+    "pattern": "sp.*.md",
+    "enabled": true
+  },
+  "features": {
+    "slash_commands": true,
+    "auto_reload": true
+  }
+}

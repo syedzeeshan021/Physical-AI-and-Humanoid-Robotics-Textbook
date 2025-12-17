@@ -1,55 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from '@docusaurus/router';
 import { useAuth } from '../Auth/AuthContext'; // Assuming we have an auth context
+import TranslationButton from '../TranslationButton/TranslationButton';
 
 const ChapterContent = ({ children, className }) => {
   const location = useLocation();
   const { user, isAuthenticated } = useAuth(); // Get user info from auth context
   const [content, setContent] = useState(children);
-  const [isTranslating, setIsTranslating] = useState(false);
   const [isPersonalizing, setIsPersonalizing] = useState(false);
-  const [isTranslationAvailable, setIsTranslationAvailable] = useState(false);
   const [isPersonalizationAvailable, setIsPersonalizationAvailable] = useState(false);
+  const [isTranslated, setIsTranslated] = useState(false);
+  const [originalContent, setOriginalContent] = useState(children);
 
-  // Check if translation/personalization is applicable
+  // Extract chapter ID from the URL path
+  const getChapterId = () => {
+    const pathParts = location.pathname.split('/');
+    // For paths like /chapters/introduction-to-physical-ai, the chapter id is the last part
+    const chapterId = pathParts[pathParts.length - 1];
+    return chapterId || 'unknown';
+  };
+
+  // Check if personalization is applicable
   useEffect(() => {
-    setIsTranslationAvailable(true); // Translation is always available
     setIsPersonalizationAvailable(isAuthenticated && user); // Personalization requires auth
   }, [isAuthenticated, user]);
 
-  const handleTranslate = async () => {
-    if (!isAuthenticated) {
-      alert('Please sign in to use translation features');
-      return;
-    }
-
-    setIsTranslating(true);
-    try {
-      const response = await fetch('/api/v1/content/translate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}` // Assuming JWT token
-        },
-        body: JSON.stringify({
-          content: children,
-          target_language: 'ur' // Urdu
-        })
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setContent(data.translated_content);
-      } else {
-        alert('Translation failed. Using original content.');
-      }
-    } catch (error) {
-      console.error('Translation error:', error);
-      alert('Translation failed. Using original content.');
-    } finally {
-      setIsTranslating(false);
-    }
+  const handleTranslationComplete = (translatedContent) => {
+    setContent(translatedContent);
+    setIsTranslated(true);
   };
+
+  const handleReset = () => {
+    setContent(originalContent);
+    setIsTranslated(false);
+  };
+
+  // Update original content if children change
+  useEffect(() => {
+    setOriginalContent(children);
+    if (!isTranslated) {
+      setContent(children);
+    }
+  }, [children]);
 
   const handlePersonalize = async () => {
     if (!isAuthenticated || !user) {
@@ -85,38 +77,23 @@ const ChapterContent = ({ children, className }) => {
     }
   };
 
-  const handleReset = () => {
-    setContent(children); // Reset to original content
-  };
-
   return (
     <div className={className}>
-      {/* Action buttons for translation and personalization */}
-      <div style={{
-        display: 'flex',
-        gap: '10px',
-        marginBottom: '20px',
-        flexWrap: 'wrap'
-      }}>
-        {isTranslationAvailable && (
-          <button
-            onClick={handleTranslate}
-            disabled={isTranslating}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: '#4CAF50',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: isTranslating ? 'not-allowed' : 'pointer',
-              opacity: isTranslating ? 0.6 : 1
-            }}
-          >
-            {isTranslating ? 'Translating...' : 'Translate to Urdu'}
-          </button>
-        )}
+      {/* Translation button at the start of the chapter */}
+      {isAuthenticated && (
+        <TranslationButton
+          chapterId={getChapterId()}
+          content={children}
+          onTranslationComplete={handleTranslationComplete}
+          onReset={handleReset}
+          currentContent={content}
+          originalContent={originalContent}
+        />
+      )}
 
-        {isPersonalizationAvailable && (
+      {/* Personalization button */}
+      {isPersonalizationAvailable && (
+        <div style={{ marginBottom: '1rem' }}>
           <button
             onClick={handlePersonalize}
             disabled={isPersonalizing}
@@ -132,28 +109,11 @@ const ChapterContent = ({ children, className }) => {
           >
             {isPersonalizing ? 'Personalizing...' : 'Personalize Content'}
           </button>
-        )}
+        </div>
+      )}
 
-        {/* Reset button to show original content */}
-        {content !== children && (
-          <button
-            onClick={handleReset}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: '#f44336',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
-          >
-            Show Original
-          </button>
-        )}
-      </div>
-
-      {/* Render the content */}
-      <div>
+      {/* Render the content with proper styling for Urdu if translated */}
+      <div className={isTranslated ? 'translation-content-urdu' : ''}>
         {content}
       </div>
     </div>

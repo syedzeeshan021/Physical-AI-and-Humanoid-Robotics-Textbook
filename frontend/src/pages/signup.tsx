@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Layout from '@theme/Layout';
-import { useAuth } from '../src/components/Auth/AuthContext';
+import { useAuth } from '../components/Auth/AuthContext';
 import { useHistory, Redirect } from '@docusaurus/router';
 
 const SignupPage = () => {
@@ -117,7 +117,7 @@ const SignupPage = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                minLength="6"
+                minLength={6}
                 style={{
                   width: '100%',
                   padding: '10px',

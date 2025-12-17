@@ -42,7 +42,7 @@ async_engine = create_async_engine(
 
 # Import all models to ensure they're registered with Base
 # This ensures that create_all() creates all tables
-from src.models import chapter, embedding, chat_session, chat_message, user
+from src.models import chapter, embedding, chat_session, chat_message, user, translation_session
 
 # Create async session factory
 AsyncSessionLocal = sessionmaker(

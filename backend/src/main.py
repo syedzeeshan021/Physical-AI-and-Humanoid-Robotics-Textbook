@@ -1,9 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 
 from src.api import router
-from src.auth.routes import router as auth_router
 from src.core.config import settings
 from src.core.error_handlers import setup_error_handlers
 from src.middleware.rate_limit import RateLimitMiddleware
@@ -11,6 +13,9 @@ from src.core.logging import setup_logging
 
 # Setup logging
 setup_logging()
+
+# Create a limiter instance
+limiter = Limiter(key_func=get_remote_address)
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -24,6 +29,10 @@ setup_error_handlers(app)
 # Add rate limiting middleware
 app.add_middleware(RateLimitMiddleware)
 
+# Add slowapi rate limiting
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
@@ -35,7 +44,6 @@ app.add_middleware(
 
 # Include API routes
 app.include_router(router, prefix="/api/v1")
-app.include_router(auth_router)
 
 @app.get("/")
 def read_root():

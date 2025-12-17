@@ -6,7 +6,7 @@ declare const process: {
   };
 };
 
-const BACKEND_API_URL = process.env.REACT_APP_BACKEND_API_URL || 'http://localhost:8000/api/v1';
+const BACKEND_API_URL = process.env.REACT_APP_BACKEND_API_URL || 'http://localhost:8001/api/v1';
 
 class ApiService {
   async getChapters() {
@@ -51,7 +51,7 @@ class ApiService {
 
   async queryRag(query: string, sessionId?: string) {
     try {
-      const response = await fetch(`${BACKEND_API_URL || 'http://localhost:8000/api/v1'}/rag/query`, {
+      const response = await fetch(`${BACKEND_API_URL || 'http://localhost:8001/api/v1'}/rag/query`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
