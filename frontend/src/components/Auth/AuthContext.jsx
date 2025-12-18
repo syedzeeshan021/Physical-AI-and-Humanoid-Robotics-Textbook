@@ -1,5 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
+// Get the backend API URL from webpack DefinePlugin
+declare const process: {
+  env: {
+    REACT_APP_BACKEND_API_URL: string;
+  };
+};
+
+const BACKEND_API_URL = process.env.REACT_APP_BACKEND_API_URL || 'http://localhost:8000/api/v1';
+
 const AuthContext = createContext();
 
 export const useAuth = () => {
@@ -36,7 +45,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await fetch('/api/v1/auth/token', {
+      const response = await fetch(`${BACKEND_API_URL}/auth/token`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -52,7 +61,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('access_token', data.access_token);
 
         // Get user details
-        const userResponse = await fetch('/api/v1/users/me', {
+        const userResponse = await fetch(`${BACKEND_API_URL}/users/me`, {
           headers: {
             'Authorization': `Bearer ${data.access_token}`
           }
@@ -77,7 +86,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (email, password, softwareBackground, hardwareBackground) => {
     try {
-      const response = await fetch('/api/v1/auth/register', {
+      const response = await fetch(`${BACKEND_API_URL}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -95,7 +104,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('access_token', data.access_token);
 
         // Get user details
-        const userResponse = await fetch('/api/v1/users/me', {
+        const userResponse = await fetch(`${BACKEND_API_URL}/users/me`, {
           headers: {
             'Authorization': `Bearer ${data.access_token}`
           }
