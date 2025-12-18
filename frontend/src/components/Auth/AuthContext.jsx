@@ -1,13 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 // Get the backend API URL from webpack DefinePlugin
-declare const process: {
-  env: {
-    REACT_APP_BACKEND_API_URL: string;
-  };
-};
-
-const BACKEND_API_URL = process.env.REACT_APP_BACKEND_API_URL || 'http://localhost:8000/api/v1';
+const BACKEND_API_URL = typeof process !== 'undefined' ?
+  (process.env.REACT_APP_BACKEND_API_URL || 'http://localhost:8000/api/v1') :
+  'http://localhost:8000/api/v1';
 
 const AuthContext = createContext();
 
