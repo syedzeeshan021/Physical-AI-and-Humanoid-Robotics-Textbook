@@ -3,7 +3,7 @@
 ## 1. Technical Context
 
 ### 1.1 Feature Overview
-The Urdu Translation Button feature enables logged-in users to translate textbook content to Urdu by clicking a button positioned at the start of each chapter. The feature provides an incentive of 50 bonus points when users utilize the translation functionality.
+The Urdu Translation Button feature enables logged-in users to translate textbook content to Urdu by clicking a button positioned at the start of each chapter.
 
 ### 1.2 Architecture Context
 - **Frontend**: Docusaurus v3 with TypeScript
@@ -17,13 +17,11 @@ The Urdu Translation Button feature enables logged-in users to translate textboo
 ### 1.3 Dependencies
 - Google Cloud Translation API access
 - Existing user authentication system
-- Bonus points tracking system
 - Docusaurus theme components
 
 ### 1.4 Integration Points
 - Chapter content rendering in Docusaurus
 - User authentication verification
-- Bonus points calculation and storage
 - Translation API rate limiting
 
 ## 2. Constitution Check
@@ -64,7 +62,7 @@ The Urdu Translation Button feature enables logged-in users to translate textboo
 
 #### 3.1.3 Authentication Requirements
 - **Decision**: Basic account registration required
-- **Rationale**: Maximizes accessibility while maintaining tracking of bonus points
+- **Rationale**: Maximizes accessibility while maintaining tracking of translation usage
 - **Implementation**: Session-based authentication check before translation access
 
 ## 4. Phase 1: Design & Architecture
@@ -74,7 +72,6 @@ The Urdu Translation Button feature enables logged-in users to translate textboo
 #### 4.1.1 User Account Entity
 - `user_id`: UUID (Primary Key)
 - `auth_status`: enum ['unverified', 'verified', 'active']
-- `bonus_points_balance`: integer (default: 0)
 - `translation_usage_history`: JSONB (array of translation session IDs)
 - `created_at`: timestamp
 - `updated_at`: timestamp
@@ -89,14 +86,6 @@ The Urdu Translation Button feature enables logged-in users to translate textboo
 - `is_cached`: boolean (default: true)
 - `cache_expires_at`: timestamp
 
-#### 4.1.3 Bonus Points System Entity
-- `points_id`: UUID (Primary Key)
-- `user_id`: UUID (Foreign Key to users)
-- `points_earned`: integer (default: 50 for translation)
-- `chapter_id`: text (chapter identifier)
-- `earned_at`: timestamp
-- `is_first_time`: boolean (default: true)
-- `total_points_earned`: integer (aggregated)
 
 ### 4.2 API Contracts
 
@@ -117,9 +106,7 @@ The Urdu Translation Button feature enables logged-in users to translate textboo
   ```json
   {
     "translated_content": "string",
-    "session_id": "uuid",
-    "bonus_points_awarded": 50,
-    "total_points": "integer"
+    "session_id": "uuid"
   }
   ```
 - **Error Responses**:
@@ -127,22 +114,6 @@ The Urdu Translation Button feature enables logged-in users to translate textboo
   - 400: Bad Request (invalid content)
   - 429: Rate Limited (too many requests)
 
-**GET /api/user/points**
-- **Purpose**: Get user's bonus points
-- **Auth Required**: Yes
-- **Response**:
-  ```json
-  {
-    "total_points": "integer",
-    "points_history": [
-      {
-        "chapter_id": "string",
-        "points": "integer",
-        "earned_at": "timestamp"
-      }
-    ]
-  }
-  ```
 
 #### 4.2.2 Rate Limiting
 - Translation endpoints limited to 100 requests per user per hour
@@ -167,10 +138,9 @@ The Urdu Translation Button feature enables logged-in users to translate textboo
 - Maintain scroll position during switch
 - Handle right-to-left text rendering for Urdu
 
-#### 5.1.3 Bonus Points Display
-- Show points awarded immediately after translation
-- Visual/auditory feedback when earning points
-- Update total points in user profile
+#### 5.1.3 User Feedback
+- Visual/auditory feedback for translation actions
+- Update translation usage in user profile
 
 ### 5.2 Backend Implementation
 
@@ -185,11 +155,6 @@ The Urdu Translation Button feature enables logged-in users to translate textboo
 - Check account status (basic registration required)
 - Track translation usage per user
 
-#### 5.2.3 Bonus Points Service
-- Award 50 points for first-time translation per chapter
-- Track points per user and chapter
-- Maintain point history
-- Aggregate total points for user
 
 ### 5.3 Integration Points
 
@@ -232,7 +197,6 @@ The Urdu Translation Button feature enables logged-in users to translate textboo
 #### 7.1.1 Unit Tests
 - Translation service functions
 - Authentication middleware
-- Bonus points calculation
 - Caching mechanisms
 
 #### 7.1.2 Integration Tests
@@ -243,7 +207,6 @@ The Urdu Translation Button feature enables logged-in users to translate textboo
 
 #### 7.1.3 End-to-End Tests
 - Complete user translation flow
-- Bonus points awarding
 - Language switching functionality
 - Error handling scenarios
 
@@ -272,15 +235,12 @@ The Urdu Translation Button feature enables logged-in users to translate textboo
 ### 9.1 Quantitative Metrics
 - 100% of logged-in users can successfully translate chapter content to Urdu
 - Translation functionality available on all 6 textbook chapters
-- 50 bonus points are correctly awarded when translation is used for the first time per chapter
 - Translation processing time is under 3 seconds for 95% of requests
 - At least 20% of logged-in users engage with the translation feature within first month
-- Bonus points are accurately tracked and displayed in user profile
 
 ### 9.2 Qualitative Metrics
 - Users find the translation button easily discoverable at chapter start
 - Urdu translation quality is sufficient for comprehension (85% accuracy)
-- Bonus point system effectively incentivizes feature usage
 - Right-to-left text rendering is properly displayed
 - Overall user experience is positive when using translation feature
 

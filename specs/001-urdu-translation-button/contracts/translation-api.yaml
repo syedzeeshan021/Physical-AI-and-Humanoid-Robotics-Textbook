@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Urdu Translation API
-  description: API for translating textbook content to Urdu with bonus points system
+  description: API for translating textbook content to Urdu
   version: 1.0.0
 servers:
   - url: https://api.example.com
@@ -13,7 +13,7 @@ paths:
   /api/translate:
     post:
       summary: Translate content to Urdu
-      description: Translates provided content to Urdu and awards bonus points to authenticated user
+      description: Translates provided content to Urdu for authenticated users
       operationId: translateContent
       tags:
         - Translation
@@ -63,35 +63,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-  /api/user/points:
-    get:
-      summary: Get user bonus points
-      description: Retrieves the user's bonus points and history
-      operationId: getUserPoints
-      tags:
-        - Points
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: Successfully retrieved user points
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PointsResponse'
-        '401':
-          description: Unauthorized - user not authenticated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-
 components:
   securitySchemes:
     bearerAuth:
@@ -125,8 +96,6 @@ components:
       required:
         - translated_content
         - session_id
-        - bonus_points_awarded
-        - total_points
       properties:
         translated_content:
           type: string
@@ -137,55 +106,10 @@ components:
           description: Unique identifier for this translation session
           format: uuid
           example: "550e8400-e29b-41d4-a716-446655440000"
-        bonus_points_awarded:
-          type: integer
-          description: Number of bonus points awarded for this translation
-          example: 50
-        total_points:
-          type: integer
-          description: User's total bonus points after this translation
-          example: 150
         is_cached:
           type: boolean
           description: Whether the translation was retrieved from cache
           example: false
-
-    PointsResponse:
-      type: object
-      required:
-        - total_points
-        - points_history
-      properties:
-        total_points:
-          type: integer
-          description: User's total bonus points
-          example: 150
-        points_history:
-          type: array
-          items:
-            $ref: '#/components/schemas/PointsRecord'
-          description: History of bonus points earned
-
-    PointsRecord:
-      type: object
-      required:
-        - chapter_id
-        - points
-        - earned_at
-      properties:
-        chapter_id:
-          type: string
-          description: The chapter where points were earned
-          example: "physical-ai-introduction"
-        points:
-          type: integer
-          description: Number of points earned
-          example: 50
-        earned_at:
-          type: string
-          format: date-time
-          description: When the points were earned
-          example: "2025-12-15T10:30:00Z"
 
     ErrorResponse:
       type: object

@@ -1,0 +1,66 @@
+/* Right-to-Left text rendering support for Urdu */
+.urdu-text {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Noto Nastaliq Urdu', 'Urdu Typesetting', 'Jameel Noori Nastaleeq', 'Urdu Naskh', serif;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+}
+
+/* Specific styling for Urdu content */
+.urdu-content {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Noto Nastaliq Urdu', 'Urdu Typesetting', 'Jameel Noori Nastaleeq', 'Urdu Naskh', serif;
+  font-size: 1.1em;
+  line-height: 1.8;
+  margin: 1rem 0;
+}
+
+/* Ensure proper RTL layout for translation containers */
+.translation-container {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.translation-content {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  min-height: 2rem;
+}
+
+/* Adjust for different screen sizes */
+@media (max-width: 768px) {
+  .urdu-text {
+    font-size: 1.2em;
+    line-height: 1.7;
+  }
+
+  .urdu-content {
+    font-size: 1.2em;
+    line-height: 1.7;
+  }
+}
+
+/* Ensure proper spacing in RTL context */
+.urdu-text p,
+.urdu-text div,
+.urdu-text span {
+  text-align: right;
+  margin: 0.5rem 0;
+}
+
+/* Proper list styling for RTL */
+.urdu-text ul,
+.urdu-text ol {
+  text-align: right;
+  padding-right: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.urdu-text li {
+  text-align: right;
+  margin-bottom: 0.25rem;
+}

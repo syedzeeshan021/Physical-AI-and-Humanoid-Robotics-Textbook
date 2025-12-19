@@ -4,6 +4,8 @@ from typing import Dict, Any
 from src.services.user_service import UserService
 from src.auth.utils import verify_token
 from src.core.config import settings
+from src.models.user import User
+from src.auth.auth_service import get_current_user
 
 router = APIRouter()
 
@@ -49,6 +51,26 @@ async def get_user_preferences(token: str = None):
         "language": "en",
         "theme": "light",
         "personalization_enabled": True
+    }
+
+
+@router.get("/me")
+async def get_current_user_info(current_user: User = Depends(get_current_user)):
+    """
+    Get current user information
+    """
+    if not current_user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Return user information (excluding sensitive data like hashed_password)
+    return {
+        "id": str(current_user.id),
+        "email": current_user.email,
+        "auth_status": current_user.auth_status,
+        "preferences": current_user.preferences,
+        "progress": current_user.progress,
+        "created_at": current_user.created_at,
+        "updated_at": current_user.updated_at
     }
 
 

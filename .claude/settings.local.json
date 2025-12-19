@@ -3,7 +3,20 @@
     "allow": [
       "Bash(mkdir -p \"specs/textbook-generation\")",
       "Bash(npm start)",
-      "SlashCommand(/sp.clarify)"
+      "SlashCommand(/sp.clarify)",
+      "Bash(powershell -ExecutionPolicy Bypass -File .specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks)",
+      "Bash(dir)",
+      "Bash($env:SPECIFY_FEATURE=\"001-urdu-translation-button\")",
+      "Bash(powershell -Command \"$env:SPECIFY_FEATURE=''001-urdu-translation-button''; . ''.specify/scripts/powershell/check-prerequisites.ps1'' -Json -RequireTasks -IncludeTasks\")",
+      "Bash(powershell -ExecutionPolicy Bypass -File ../../../.specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks:*)",
+      "Bash(powershell -ExecutionPolicy Bypass -File \"E:\\\\GIAIC Q4 AGENTIC AI\\\\PIAHR\\\\.specify\\\\scripts\\\\powershell\\\\check-prerequisites.ps1\" -Json -RequireTasks -IncludeTasks)",
+      "Bash(powershell -ExecutionPolicy Bypass -File \"E:\\\\GIAIC Q4 AGENTIC AI\\\\PIAHR\\\\.specify\\\\scripts\\\\powershell\\\\check-prerequisites.ps1\" -Json)",
+      "Bash(find backend -name \"*.py\" -exec grep -l \"create_all\\\\|alembic\\\\|migration\" {} ;)",
+      "Bash(python -c \"\nimport asyncio\nfrom backend.src.core.database import init_db\nasyncio.run\\(init_db\\(\\)\\)\nprint\\(''Database initialized successfully''\\)\n\")",
+      "Bash(python -c \"\nimport asyncio\nimport sys\nimport os\nsys.path.append\\(os.path.dirname\\(os.path.abspath\\(__file__\\)\\)\\)\n\nfrom src.core.database import init_db\nfrom src.core.config import settings\n\nasync def run_init\\(\\):\n    print\\(''Database URL:'', settings.DATABASE_URL\\)\n    await init_db\\(\\)\n    print\\(''Database initialized successfully''\\)\n\nasyncio.run\\(run_init\\(\\)\\)\n\")",
+      "Bash(python init_db.py)",
+      "Bash(python add_missing_columns.py)",
+      "Bash(python -m uvicorn src.main:app --reload)"
     ],
     "deny": [],
     "ask": []

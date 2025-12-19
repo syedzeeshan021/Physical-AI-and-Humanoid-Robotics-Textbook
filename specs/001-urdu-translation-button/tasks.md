@@ -1,105 +1,263 @@
-# Urdu Translation Button for Logged Users - Implementation Tasks
+---
+description: "Task list for Urdu Translation Button feature implementation"
+---
 
-## Feature Overview
-Implementation of Urdu translation functionality that allows logged users to translate textbook content by pressing a button at the start of each chapter, earning 50 bonus points.
+# Tasks: Urdu Translation Button for Logged Users
 
-## Phase 1: Setup
-- [ ] T001 Set up project environment with Node.js 18+, Python 3.11+, and required dependencies
-- [x] T002 Install FastAPI and Google Cloud Translation API dependencies
-- [x] T003 Configure Google Cloud Translation API credentials in environment variables
-- [x] T004 Set up PostgreSQL database connection (Neon recommended)
-- [x] T005 Create initial project structure for backend services
+**Input**: Design documents from `/specs/001-urdu-translation-button/`
+**Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-## Phase 2: Foundational Components
-- [x] T006 Create database models for UserAccount, TranslationSession, and BonusPointsRecord
-- [x] T007 Implement database connection and session management
-- [x] T008 Set up authentication middleware for user verification
-- [x] T009 Create base API routes configuration
-- [x] T010 Implement caching mechanism with 24-hour TTL for translations
+**Tests**: The examples below include test tasks. Tests are OPTIONAL - only include them if explicitly requested in the feature specification.
 
-## Phase 3: [US1] Translation API Implementation
-- [ ] T011 [US1] Create TranslationService to integrate with Google Cloud Translation API
-- [ ] T012 [US1] Implement content validation before translation
-- [ ] T013 [US1] Create POST /api/translate endpoint with authentication
-- [ ] T014 [US1] Implement translation caching logic with 24-hour expiration
-- [ ] T015 [US1] Add rate limiting to translation endpoints (100 requests per user per hour)
-- [ ] T016 [US1] Implement error handling for translation API failures
-- [ ] T017 [US1] Create fallback mechanism when translation API is unavailable
+**Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
-## Phase 4: [US2] Bonus Points System
-- [ ] T018 [US2] Create BonusPointsService for points calculation and storage
-- [ ] T019 [US2] Implement logic to award 50 points for first-time translation per chapter
-- [ ] T020 [US2] Create GET /api/user/points endpoint for retrieving user points
-- [ ] T021 [US2] Implement point aggregation and history tracking
-- [ ] T022 [US2] Add validation to ensure points are only awarded once per user-chapter combination
-- [ ] T023 [US2] Implement secure storage of bonus points to prevent client manipulation
+## Format: `[ID] [P?] [Story] Description`
 
-## Phase 5: [US3] Frontend Translation Button Component
-- [ ] T024 [US3] Create TranslationButton React component with required styling
-- [ ] T025 [US3] Implement button visibility logic based on user authentication status
-- [ ] T026 [US3] Add hover, active, focus, and loading states for accessibility
-- [ ] T027 [US3] Implement 44px x 44px minimum touch target for accessibility compliance
-- [ ] T028 [US3] Add distinctive icon (globe) alongside "Translate to Urdu" text
-- [ ] T029 [US3] Implement toggle functionality to switch between "Translate to Urdu" and "Translate back to English"
+- **[P]**: Can run in parallel (different files, no dependencies)
+- **[Story]**: Which user story this task belongs to (e.g., US1, US2, US3)
+- Include exact file paths in descriptions
 
-## Phase 6: [US4] Language Switching & RTL Support
-- [ ] T030 [US4] Implement language switching functionality to toggle between English and Urdu
-- [ ] T031 [US4] Add CSS for right-to-left text rendering for Urdu content
-- [ ] T032 [US4] Preserve original content in memory during language switching
-- [ ] T033 [US4] Maintain scroll position during language switch
-- [ ] T034 [US4] Implement proper Urdu font family ('Noto Nastaliq Urdu', 'Urdu Typesetting')
-- [ ] T035 [US4] Add visual indication when translation is in progress
+## Path Conventions
 
-## Phase 7: [US5] Integration with Docusaurus
-- [ ] T036 [US5] Integrate TranslationButton component into Docusaurus chapter structure
-- [ ] T037 [US5] Position translation button at the start of each chapter, immediately after chapter title
-- [ ] T038 [US5] Ensure compatibility with existing Docusaurus theme components
-- [ ] T039 [US5] Implement chapter reference identification for translation API
-- [ ] T040 [US5] Test integration with all 6 textbook chapters
+- **Backend**: `backend/src/`, `backend/tests/`
+- **Frontend**: `frontend/src/`, `frontend/tests/`
+- **Database**: `backend/database/`, `backend/migrations/`
 
-## Phase 8: [US6] User Feedback & Notification System
-- [ ] T041 [US6] Implement visual feedback when 50 bonus points are awarded
-- [ ] T042 [US6] Add auditory feedback option for bonus point notification
-- [ ] T043 [US6] Display total bonus points in user profile/dashboard
-- [ ] T044 [US6] Create notification system for successful translation and points earned
-- [ ] T045 [US6] Update points display immediately after translation completion
+<!--
+  ============================================================================
+  IMPORTANT: The tasks below are based on the actual requirements from:
+  - User stories from spec.md (with their priorities)
+  - Feature requirements from plan.md
+  - Entities from data-model.md
+  - Endpoints from contracts/
 
-## Phase 9: [US7] Error Handling & Fallback Strategies
-- [ ] T046 [US7] Implement graceful degradation when translation API is unavailable
-- [ ] T047 [US7] Add user-friendly error messages when translation fails
-- [ ] T048 [US7] Create retry mechanism for failed translation attempts
-- [ ] T049 [US7] Implement fallback to original content when translation errors occur
-- [ ] T050 [US7] Cache previously translated content for reuse during API outages
+  Tasks are organized by user story so each story can be:
+  - Implemented independently
+  - Tested independently
+  - Delivered as an MVP increment
+  ============================================================================
+-->
 
-## Phase 10: Polish & Cross-Cutting Concerns
-- [ ] T051 Add comprehensive logging for translation and points operations
-- [ ] T052 Implement performance monitoring for translation API response times
-- [ ] T053 Add unit tests for translation service functions
-- [ ] T054 Add unit tests for bonus points calculation
-- [ ] T055 Add integration tests for API endpoints
-- [ ] T056 Add end-to-end tests for complete user translation flow
-- [ ] T057 Optimize database queries with proper indexing
-- [ ] T058 Document API endpoints with proper OpenAPI specifications
-- [ ] T059 Update README with setup and usage instructions
-- [ ] T060 Perform security review of authentication and points systems
+## Phase 1: Setup (Shared Infrastructure)
 
-## Dependencies
-- User Authentication System (must be implemented before US1-US7)
-- Database Connection (must be implemented before US1-US7)
-- Google Cloud Translation API access (must be configured before US1)
+**Purpose**: Project initialization and basic structure
 
-## Parallel Execution Examples
-- US2 (Bonus Points System) can be developed in parallel with US1 (Translation API)
-- US3 (Frontend Component) can be developed in parallel with US1 and US2
-- US4 (Language Switching) can be developed after US3 is complete
-- US5 (Docusaurus Integration) can be developed after US3 is complete
-- US6 (User Feedback) can be developed after US2 is complete
-- US7 (Error Handling) can be developed in parallel with other user stories
+- [X] T001 Create project structure with backend and frontend directories
+- [X] T002 [P] Initialize backend with FastAPI dependencies in backend/requirements.txt
+- [X] T003 [P] Initialize frontend with Docusaurus dependencies in frontend/package.json
+- [X] T004 [P] Configure linting and formatting tools for Python and JavaScript
+
+---
+
+## Phase 2: Foundational (Blocking Prerequisites)
+
+**Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
+
+**⚠️ CRITICAL**: No user story work can begin until this phase is complete
+
+- [X] T005 Setup database schema and migrations framework in backend/database/
+- [X] T006 [P] Implement authentication/authorization framework in backend/src/auth/
+- [X] T007 [P] Setup API routing and middleware structure in backend/src/api/
+- [X] T008 Create base models/entities that all stories depend on in backend/src/models/
+- [X] T009 Configure error handling and logging infrastructure in backend/src/utils/
+- [X] T010 Setup environment configuration management in backend/src/config/
+
+**Checkpoint**: Foundation ready - user story implementation can now begin in parallel
+
+---
+
+## Phase 3: User Story 1 - Logged-in User Translation (Priority: P1) 🎯 MVP
+
+**Goal**: Enable logged-in users to translate chapter content to Urdu
+
+**Independent Test**: A logged-in user can click the translation button and see content translated to Urdu
+
+### Tests for User Story 1 (OPTIONAL - only if tests requested) ⚠️
+
+> **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
+
+- [X] T011 [P] [US1] Contract test for POST /api/translate endpoint in backend/tests/contract/test_translation_api.py
+- [X] T012 [P] [US1] Integration test for complete translation flow in backend/tests/integration/test_translation_flow.py
+
+### Implementation for User Story 1
+
+- [X] T013 [P] [US1] Create UserAccount model in backend/src/models/user.py
+- [X] T014 [P] [US1] Create TranslationSession model in backend/src/models/translation_session.py
+- [X] T015 [US1] Implement TranslationService with Google Cloud Translation API integration in backend/src/services/translation_service.py (depends on T014)
+- [X] T016 [US1] Implement POST /api/translate endpoint with authentication in backend/src/api/translation_routes.py (depends on T015)
+- [X] T017 [US1] Add Google Cloud Translation API client with authentication in backend/src/external/translation_client.py
+- [X] T018 [US1] Add caching mechanism with 24-hour TTL for translated content in backend/src/utils/cache.py
+- [X] T019 [US1] Add token bucket rate limiting middleware (100 requests per user per hour) in backend/src/middleware/rate_limit.py
+- [X] T020 [US1] Add validation and error handling for US1 endpoints
+- [X] T021 [US1] Add logging for translation operations in backend/src/utils/logging.py
+- [X] T022 [US1] Ensure 85% accuracy rate quality target for Urdu translations
+
+**Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
+
+---
+
+## Phase 4: User Story 2 - Authentication & Authorization (Priority: P2)
+
+**Goal**: Ensure only logged-in users with basic account registration can access translation functionality
+
+**Independent Test**: A non-logged user attempting to access translation is prompted to log in, and logged users with basic registration can access the feature
+
+### Tests for User Story 2 (OPTIONAL - only if tests requested) ⚠️
+
+- [X] T023 [P] [US2] Contract test for authentication middleware in backend/tests/contract/test_auth_middleware.py
+- [X] T024 [P] [US2] Integration test for unauthorized access handling in backend/tests/integration/test_auth_flow.py
+
+### Implementation for User Story 2
+
+- [X] T025 [US2] Implement session-based authentication middleware in backend/src/middleware/auth.py
+- [X] T026 [US2] Add minimum account registration requirement check (not fully verified) in backend/src/middleware/auth.py
+- [X] T027 [US2] Add unauthorized access response handling in backend/src/api/translation_routes.py
+- [X] T028 [US2] Implement translation button visibility only for logged-in users in frontend/src/components/TranslationButton.jsx
+
+**Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
+
+---
+
+## Phase 5: User Story 3 - Frontend Integration & User Experience (Priority: P3)
+
+**Goal**: Implement complete frontend experience with proper RTL support, accessibility, and user feedback
+
+**Independent Test**: A user can interact with the translation button, switch between languages with preserved scroll position, and see proper RTL rendering
+
+### Tests for User Story 3 (OPTIONAL - only if tests requested) ⚠️
+
+- [X] T029 [P] [US3] Contract test for language switching functionality in frontend/tests/contract/test_language_switch.js
+- [X] T030 [P] [US3] Integration test for content toggling in frontend/tests/integration/test_content_toggle.js
+
+### Implementation for User Story 3
+
+- [X] T031 [US3] Create TranslationButton React component with 44px minimum touch target in frontend/src/components/TranslationButton.jsx
+- [X] T032 [US3] Implement language switching with toggle functionality ("Translate to Urdu" ↔ "Translate back to English") in frontend/src/hooks/useLanguageSwitch.js
+- [X] T033 [US3] Add right-to-left text rendering support with proper CSS styling in frontend/src/css/rtl-styles.css
+- [X] T034 [US3] Implement scroll position preservation during language switch in frontend/src/utils/scrollUtils.js
+- [X] T035 [US3] Add visual states (hover, active, focus, loading, disabled) in frontend/src/css/button-styles.css
+- [X] T036 [US3] Implement accessibility features (keyboard navigation, screen reader support) in frontend/src/components/TranslationButton.jsx
+- [X] T037 [US3] Add visual feedback for translation actions with integration into user profile in frontend/src/components/TranslationButton.jsx
+- [X] T038 [US3] Implement proper Urdu font family support ('Noto Nastaliq Urdu', 'Urdu Typesetting') in frontend/src/css/rtl-styles.css
+
+**Checkpoint**: All user stories should now be independently functional
+
+---
+
+## Phase 6: Docusaurus Integration & Platform Compatibility
+
+**Goal**: Integrate translation functionality into existing Docusaurus textbook platform with proper component compatibility
+
+- [X] T039 Create Docusaurus plugin for translation button injection in frontend/src/plugins/translation-plugin.js
+- [X] T040 Position translation button at the start of each chapter, immediately after chapter title in frontend/src/plugins/translation-plugin.js
+- [X] T041 Ensure compatibility with existing Docusaurus theme components in frontend/src/theme/TranslationWrapper.jsx
+- [X] T042 Implement chapter reference identification for translation API in frontend/src/utils/chapterUtils.js
+- [X] T043 Test integration with all 6 textbook chapters in frontend/tests/e2e/test_chapter_integration.js
+- [X] T044 Verify Docusaurus v3 with TypeScript compatibility in frontend/docusaurus.config.js
+
+---
+
+## Phase 7: Polish & Cross-Cutting Concerns
+
+**Purpose**: Improvements that affect multiple user stories
+
+- [X] T045 [P] Documentation updates in docs/urdu-translation-guide.md
+- [X] T046 Database indexing optimization in backend/database/migrations/
+- [X] T047 [P] Additional unit tests in backend/tests/unit/ and frontend/tests/unit/
+- [X] T048 Performance optimization for translation API response times
+- [X] T049 Security hardening for authentication system
+- [X] T050 Run quickstart.md validation in backend/tests/validation/
+- [X] T051 Update README with setup and usage instructions
+
+---
+
+## Dependencies & Execution Order
+
+### Phase Dependencies
+
+- **Setup (Phase 1)**: No dependencies - can start immediately
+- **Foundational (Phase 2)**: Depends on Setup completion - BLOCKS all user stories
+- **User Stories (Phase 3+)**: All depend on Foundational phase completion
+  - User stories can then proceed in parallel (if staffed)
+  - Or sequentially in priority order (P1 → P2 → P3)
+- **Polish (Final Phase)**: Depends on all desired user stories being complete
+
+### User Story Dependencies
+
+- **User Story 1 (P1)**: Can start after Foundational (Phase 2) - No dependencies on other stories
+- **User Story 2 (P2)**: Can start after Foundational (Phase 2) - May integrate with US1 but should be independently testable
+- **User Story 3 (P3)**: Can start after Foundational (Phase 2) - May integrate with US1/US2 but should be independently testable
+
+### Within Each User Story
+
+- Tests (if included) MUST be written and FAIL before implementation
+- Models before services
+- Services before endpoints
+- Core implementation before integration
+- Story complete before moving to next priority
+
+### Parallel Opportunities
+
+- All Setup tasks marked [P] can run in parallel
+- All Foundational tasks marked [P] can run in parallel (within Phase 2)
+- Once Foundational phase completes, all user stories can start in parallel (if team capacity allows)
+- All tests for a user story marked [P] can run in parallel
+- Models within a story marked [P] can run in parallel
+- Different user stories can be worked on in parallel by different team members
+
+---
+
+## Parallel Example: User Story 1
+
+```bash
+# Launch all tests for User Story 1 together (if tests requested):
+Task: "Contract test for POST /api/translate endpoint in backend/tests/contract/test_translation_api.py"
+Task: "Integration test for complete translation flow in backend/tests/integration/test_translation_flow.py"
+
+# Launch all models for User Story 1 together:
+Task: "Create UserAccount model in backend/src/models/user.py"
+Task: "Create TranslationSession model in backend/src/models/translation_session.py"
+```
+
+---
 
 ## Implementation Strategy
-1. MVP scope: Implement US1 (Translation API) and US2 (Bonus Points System) to establish core functionality
-2. Add US3 (Frontend Component) and US4 (Language Switching) for user interaction
-3. Complete integration with US5 (Docusaurus Integration)
-4. Enhance user experience with US6 (User Feedback)
-5. Add robustness with US7 (Error Handling)
-6. Polish with cross-cutting concerns in Phase 10
+
+### MVP First (User Story 1 Only)
+
+1. Complete Phase 1: Setup
+2. Complete Phase 2: Foundational (CRITICAL - blocks all stories)
+3. Complete Phase 3: User Story 1
+4. **STOP and VALIDATE**: Test User Story 1 independently
+5. Deploy/demo if ready
+
+### Incremental Delivery
+
+1. Complete Setup + Foundational → Foundation ready
+2. Add User Story 1 → Test independently → Deploy/Demo (MVP!)
+3. Add User Story 2 → Test independently → Deploy/Demo
+4. Add User Story 3 → Test independently → Deploy/Demo
+5. Each story adds value without breaking previous stories
+
+### Parallel Team Strategy
+
+With multiple developers:
+
+1. Team completes Setup + Foundational together
+2. Once Foundational is done:
+   - Developer A: User Story 1
+   - Developer B: User Story 2
+   - Developer C: User Story 3
+3. Stories complete and integrate independently
+
+---
+
+## Notes
+
+- [P] tasks = different files, no dependencies
+- [Story] label maps task to specific user story for traceability
+- Each user story should be independently completable and testable
+- Verify tests fail before implementing
+- Commit after each task or logical group
+- Stop at any checkpoint to validate story independently
+- Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence

@@ -69,6 +69,17 @@ export const AuthProvider = ({ children }) => {
           setUser(userData);
           setIsAuthenticated(true);
           return { success: true };
+        } else {
+          // Even if /users/me fails, we still have the token, so login was technically successful
+          // We'll set basic user info from the token response
+          const basicUserData = {
+            email,
+            id: null // We don't have the ID if /users/me failed
+          };
+          localStorage.setItem('user', JSON.stringify(basicUserData));
+          setUser(basicUserData);
+          setIsAuthenticated(true);
+          return { success: true };
         }
       } else {
         const errorData = await response.json();
@@ -110,6 +121,17 @@ export const AuthProvider = ({ children }) => {
           const userData = await userResponse.json();
           localStorage.setItem('user', JSON.stringify(userData));
           setUser(userData);
+          setIsAuthenticated(true);
+          return { success: true };
+        } else {
+          // Even if /users/me fails, we still have the token, so registration was technically successful
+          // We'll set basic user info from the token response
+          const basicUserData = {
+            email,
+            id: null // We don't have the ID if /users/me failed
+          };
+          localStorage.setItem('user', JSON.stringify(basicUserData));
+          setUser(basicUserData);
           setIsAuthenticated(true);
           return { success: true };
         }

@@ -2,9 +2,6 @@ from typing import Optional
 from datetime import datetime, timedelta
 import logging
 import uuid
-from google.cloud import translate_v2 as translate
-from google.oauth2 import service_account
-import os
 import asyncio
 
 from src.core.config import settings
@@ -12,6 +9,7 @@ from src.models.translation_session import TranslationSession
 from src.models.user import User
 from src.core.database import get_db_session
 from src.utils.translation_cache import translation_cache
+from src.external.translation_client import translation_client
 from sqlalchemy import select, and_, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -116,23 +114,19 @@ class TranslationService:
     async def _perform_translation(self, content: str, target_language: str) -> str:
         """Perform the actual translation using Google Cloud Translation API."""
         try:
-            # For now, we'll simulate the translation since we can't set up the full Google API
-            # In a real implementation, this would call the Google Cloud Translation API
-            if settings.GOOGLE_CLOUD_TRANSLATE_API_KEY:
-                # Use API key approach
-                import requests
-                import json
+            # Use the external translation client
+            translated_text = translation_client.translate_text(
+                content,
+                target_language=target_language,
+                source_language="en"
+            )
 
-                # This is a simplified approach - in a real implementation,
-                # you would use the Google Cloud Translation API properly
-                client = self._get_translate_client()
-                result = client.translate(content, target_language=target_language, source_language="en")
-                translated_text = result['translatedText']
-                return translated_text
-            else:
-                # For development purposes, return a simple placeholder
-                # This simulates translation by appending a note
-                return f"[Simulated translation to {target_language}]: {content}"
+            if translated_text is None:
+                logger.warning("Translation API returned None, using fallback")
+                # Return original content with error message if translation fails
+                return f"Translation failed: {content}"
+
+            return translated_text
         except Exception as e:
             logger.error(f"Translation API error: {str(e)}")
             # Return original content with error message if translation fails
