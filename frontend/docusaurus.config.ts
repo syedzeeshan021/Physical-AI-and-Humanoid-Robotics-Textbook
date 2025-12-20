@@ -161,7 +161,7 @@ const config: Config = {
           plugins: [
             new DefinePlugin({
               'process.env.REACT_APP_BACKEND_API_URL': JSON.stringify(
-                process.env.REACT_APP_BACKEND_API_URL || 'http://localhost:8001/api/v1'
+                process.env.REACT_APP_BACKEND_API_URL || 'http://localhost:8000/api/v1'
               ),
             }),
           ],
