@@ -4,9 +4,15 @@
   "private": true,
   "scripts": {
     "build": "cd frontend && npm ci && npm run build",
-    "dev": "cd frontend && npm install && npm run start"
+    "dev": "cd frontend && npm install && npm run start",
+    "backend": "python start_backend.py",
+    "frontend": "cd frontend && npm install && npm run start",
+    "both": "concurrently \"npm run backend\" \"npm run frontend\""
   },
   "workspaces": [
     "frontend"
-  ]
+  ],
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
 }

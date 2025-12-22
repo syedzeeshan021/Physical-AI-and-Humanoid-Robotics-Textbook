@@ -1,3 +1,18 @@
+# Claude Code Slash Commands Setup and Maintenance Guide
+
+## Issue Description
+
+The Speckit Plus slash commands (like `/sp.specify`, `/sp.plan`, `/sp.tasks`, etc.) were not appearing or working in Claude Code interface. This was happening because the commands were present in the `.claude/commands/` directory but were not included in the permissions list in the settings file.
+
+## Root Cause
+
+Claude Code requires explicit permission for each slash command to be available. Even though the command files exist in `.claude/commands/`, they won't work unless they're explicitly added to the permissions list in the settings file.
+
+## Solution Applied
+
+Updated `.claude/settings.local.json` to include all Speckit Plus commands in the `permissions.allow` array:
+
+```json
 {
   "permissions": {
     "allow": [
@@ -37,3 +52,52 @@
     "ask": []
   }
 }
+```
+
+## Commands Available
+
+All Speckit Plus commands are now available:
+
+- `/sp.adr` - Create Architecture Decision Records
+- `/sp.analyze` - Analyze the codebase or requirements
+- `/sp.checklist` - Generate checklists
+- `/sp.clarify` - Clarify specifications
+- `/sp.constitution` - Work with project constitution
+- `/sp.git.commit_pr` - Handle git commit and PR workflows
+- `/sp.implement` - Implementation workflow
+- `/sp.phr` - Create Prompt History Records
+- `/sp.plan` - Create architectural plans
+- `/sp.specify` - Create feature specifications
+- `/sp.tasks` - Generate implementation tasks
+
+## Maintenance Instructions
+
+If you encounter the slash commands not working again:
+
+1. Check that the command files exist in `.claude/commands/`
+2. Verify that the command is included in the `permissions.allow` array in `.claude/settings.local.json`
+3. If a new command was added to the commands directory, make sure to add it to the permissions as well
+
+## Troubleshooting
+
+If commands still don't work after this fix:
+
+1. Restart Claude Code completely
+2. Verify the command files have proper YAML frontmatter
+3. Check that the `.claude/config.json` has the correct configuration:
+
+```json
+{
+  "commands": {
+    "directory": ".claude/commands",
+    "pattern": "sp.*.md",
+    "enabled": true
+  },
+  "features": {
+    "slash_commands": true,
+    "auto_reload": true
+  }
+}
+```
+
+This solution should permanently fix the slash commands issue. The commands will now be available in the Claude Code interface.

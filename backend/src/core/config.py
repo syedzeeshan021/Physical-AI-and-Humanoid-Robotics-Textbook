@@ -1,5 +1,7 @@
 from pydantic_settings import BaseSettings
 from typing import List, Optional
+from pathlib import Path
+import os
 
 
 class Settings(BaseSettings):
@@ -10,7 +12,7 @@ class Settings(BaseSettings):
     PORT: int = 8000
 
     # Database settings
-    DATABASE_URL: str = "postgresql://user:password@localhost/dbname"
+    DATABASE_URL: str = "postgresql+asyncpg://user:password@localhost/dbname"
     NEON_DATABASE_URL: Optional[str] = None
 
     # Qdrant settings
@@ -45,6 +47,7 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+        env_file_encoding = 'utf-8'
 
 
 settings = Settings()

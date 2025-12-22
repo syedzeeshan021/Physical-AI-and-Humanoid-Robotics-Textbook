@@ -11,8 +11,21 @@ from src.core.base import Base
 # Handle SSL configuration for asyncpg - remove incompatible parameters
 import urllib.parse
 
-# Get the database URL and remove incompatible parameters
+# Get the database URL and ensure it uses asyncpg driver, removing incompatible parameters
 raw_url = settings.NEON_DATABASE_URL or settings.DATABASE_URL
+
+# If using regular PostgreSQL URL, convert to asyncpg format
+if raw_url:
+    if raw_url.startswith("postgresql://"):
+        # Convert to asyncpg format
+        raw_url = raw_url.replace("postgresql://", "postgresql+asyncpg://", 1)
+    elif raw_url.startswith("postgresql+asyncpg://"):
+        # Already in correct format
+        pass
+    else:
+        # Some other format, leave as is
+        pass
+
 if raw_url and ("sslmode=" in raw_url or "channel_binding=" in raw_url):
     # Parse the URL and remove problematic parameters
     parsed = urllib.parse.urlparse(raw_url)
