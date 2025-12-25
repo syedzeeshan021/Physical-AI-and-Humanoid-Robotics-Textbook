@@ -1,3 +1,16 @@
+<!--
+Sync Impact Report:
+Version change: 1.0.1 → 1.0.2
+Added sections: 3.7 Authentication & API Integration
+Modified principles: Updated to reflect recent implementation changes including authentication fixes and API connectivity improvements
+Templates requiring updates:
+  - plan-template.md: ✅ No changes needed
+  - spec-template.md: ✅ No changes needed
+  - tasks-template.md: ✅ No changes needed
+  - phr-template.md: ✅ No changes needed
+Follow-up TODOs: None
+-->
+
 # Physical AI & Humanoid Robotics — Essentials Constitution
 
 ## 1. Project Purpose
@@ -66,6 +79,12 @@ Create a short, clean, professional AI-Native textbook based on the Physical AI 
 - No external data sources
 - Reliable, consistent responses
 - Contextually accurate answers
+
+### 3.7 Authentication & API Integration
+- Secure authentication for translation features
+- Proper API endpoint configuration
+- Backend connectivity with correct URL routing
+- Error handling for API communications
 
 ## 4. Technology Stack
 
@@ -250,4 +269,4 @@ Create a short, clean, professional AI-Native textbook based on the Physical AI 
 
 *This constitution serves as the foundational document for the Physical AI & Humanoid Robotics textbook project. All future decisions should align with these principles and guidelines.*
 
-**Version**: 1.0.1 | **Ratified**: 2025-12-07 | **Last Amended**: 2025-12-15
+**Version**: 1.0.2 | **Ratified**: 2025-12-07 | **Last Amended**: 2025-12-25

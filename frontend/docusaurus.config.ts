@@ -18,8 +18,8 @@ const config: Config = {
   // Set the production url of your site here
   url: 'https://physical-ai-and-humanoid-robotics-textbook-gduzorn90.vercel.app',
   // Set the /<baseUrl>/ pathname under which your site is served
-  // For Vercel deployment, use root path
-  baseUrl: '/',
+  // For Vercel deployment, use /frontend/ path to fix loading issues
+  baseUrl: '/frontend/',
 
   // Deployment config for Vercel
   // These values can be kept for reference but are not used for Vercel deployment
